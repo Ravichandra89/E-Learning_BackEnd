@@ -95,3 +95,46 @@ const studentModel =
   mongoose.models.Student || mongoose.model<IStudent>("Student", studentSchema);
 
 export default studentModel;
+
+/*
+{
+  "_id": "642123456789abcdef012345",
+  "name": "Jane Doe",
+  "email": "jane.doe@example.com",
+  "password": "$2b$10$examplehashedpassword",
+  "role": "student",
+  "courseEnrolled": [
+    "641f23456789abcdef012345",
+    "641f23456789abcdef012346"
+  ],
+  "profileSection": {
+    "bio": "Aspiring software engineer and avid learner.",
+    "profilePicture": "https://example.com/profiles/jane.jpg",
+    "contactNumber": "+1234567890"
+  },
+  "progress": "642223456789abcdef012347",
+  "testSeries": [
+    "642323456789abcdef012348",
+    "642323456789abcdef012349"
+  ],
+  "assignments": [
+    "642423456789abcdef012350"
+  ],
+  "quiz": [
+    "642523456789abcdef012352",
+    "642523456789abcdef012353"
+  ],
+  "preferences": {
+    "language": "English",
+    "notificationEnabled": true
+  },
+  "achivements": [
+    "Completed Python Basics",
+    "Top Scorer in Math Quiz"
+  ],
+  "enrollementDate": "2025-02-20T10:00:00.000Z",
+  "createdAt": "2025-02-20T09:00:00.000Z",
+  "updatedAt": "2025-02-20T09:30:00.000Z"
+}
+
+*/

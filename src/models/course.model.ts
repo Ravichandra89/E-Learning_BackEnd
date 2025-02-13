@@ -25,6 +25,9 @@ export interface ICourse extends Document {
   courseImage: string;
   prerequisites?: string;
   modules: IModule[];
+  courseType: "free" | "premium"; // New field for course type
+  coursePrice: number; // New field for course price
+  reviews?: mongoose.Types.ObjectId[]; // Connection for course reviews
   createdAt: Date;
   updatedAt: Date;
 }
@@ -63,6 +66,23 @@ const courseSchema: Schema<ICourse> = new Schema(
     courseImage: { type: String, default: "" },
     prerequisites: { type: String, default: "" },
     modules: [moduleSchema],
+    courseType: {
+      type: String,
+      enum: ["free", "premium"],
+      default: "free",
+      required: true,
+    },
+    coursePrice: {
+      type: Number,
+      default: 0, // Default price is 0 for free courses
+      required: true,
+    },
+    reviews: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "courseReview", // Reference to the CourseReview discriminator model
+      },
+    ],
   },
   {
     timestamps: true,
@@ -74,24 +94,23 @@ const CourseModel =
 
 export default CourseModel;
 
-/* ============ Dummy Data ============ 
-
+/*
 {
-  "_id": "642a1f0e5d3f9a00123abcd1",
-  "title": "Introduction to Algebra",
-  "description": "Learn the basics of algebra including variables, equations, and functions.",
-  "category": "Mathematics",
+  "_id": "649a1f0e5d3f9a00123abcd1",
+  "title": "Introduction to Programming",
+  "description": "Learn the basics of programming, including variables, loops, and functions.",
+  "category": "Computer Science",
   "difficulty": "Beginner",
-  "instructor": "641f23456789abcdef012345",
-  "courseImage": "https://example.com/images/algebra-course.jpg",
-  "prerequisites": "Basic arithmetic and an interest in solving problems.",
+  "instructor": "642a1f0e5d3f9a00123abcf2",
+  "courseImage": "https://example.com/images/intro_programming.jpg",
+  "prerequisites": "No prior experience required.",
   "modules": [
     {
-      "moduleTitle": "Module 1: Fundamentals",
-      "moduleDescription": "Introduction to key algebraic concepts.",
+      "moduleTitle": "Module 1: Getting Started",
+      "moduleDescription": "An introduction to basic programming concepts.",
       "lectures": [
         {
-          "title": "Lecture 1: Understanding Variables",
+          "title": "Lecture 1: What is Programming?",
           "videoUrl": "https://example.com/videos/lecture1.mp4",
           "duration": 600,
           "resources": [
@@ -99,21 +118,21 @@ export default CourseModel;
           ]
         },
         {
-          "title": "Lecture 2: Basic Equations",
+          "title": "Lecture 2: Setting Up Your Environment",
           "videoUrl": "https://example.com/videos/lecture2.mp4",
           "duration": 750,
           "resources": [
-            "https://example.com/resources/lecture2-cheatsheet.pdf"
+            "https://example.com/resources/lecture2-guide.pdf"
           ]
         }
       ]
     },
     {
-      "moduleTitle": "Module 2: Advanced Topics",
-      "moduleDescription": "Diving deeper into algebra.",
+      "moduleTitle": "Module 2: Basic Constructs",
+      "moduleDescription": "Learn about variables, control structures, and loops.",
       "lectures": [
         {
-          "title": "Lecture 3: Quadratic Equations",
+          "title": "Lecture 3: Variables and Data Types",
           "videoUrl": "https://example.com/videos/lecture3.mp4",
           "duration": 900,
           "resources": []
@@ -121,8 +140,14 @@ export default CourseModel;
       ]
     }
   ],
-  "createdAt": "2025-02-20T09:00:00.000Z",
-  "updatedAt": "2025-02-20T09:30:00.000Z"
+  "courseType": "premium",
+  "coursePrice": 49.99,
+  "reviews": [
+    "64bcd123456789abcdef01235",
+    "64bcd123456789abcdef01236"
+  ],
+  "createdAt": "2025-03-01T09:00:00.000Z",
+  "updatedAt": "2025-03-01T09:30:00.000Z"
 }
 
 */
